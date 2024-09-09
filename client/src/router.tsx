@@ -18,7 +18,14 @@ const AuthGuard = ({ children }: { children: React.ReactNode }) => {
 
 export const AppRoutes = () => (
   <Routes>
-    <Route path='/' element={<Home />} />
+    <Route path='/' element={
+      <AuthGuard>
+        <DashboardLayout>
+          <Dashboard />
+        </DashboardLayout>
+      </AuthGuard>
+    }></Route>
+
     <Route path='/login' element={<Login />} />
     <Route path='/register' element={<Register />} />
     <Route

@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Lock, Mail, AlertCircle } from "lucide-react"
 import { Form, Field } from 'react-final-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../app/reducers/AuthReducers'
 import { AppDispatch, RootState } from '../app/store' // Assurez-vous que ce chemin est correct
@@ -19,9 +19,14 @@ interface FormValues {
 export function PrettyLogin() {
   const dispatch = useDispatch<AppDispatch>()
   const { isLoading, error } = useSelector((state: RootState) => state.auth)
+  const navigate = useNavigate();
 
   const onSubmit = async (values: FormValues) => {
-    await dispatch(login({ email: values.email, password: values.password }))
+    const result = await dispatch(login({ email: values.email, password: values.password })).unwrap()
+    console.log("JD",result)
+    if (result.message === "Connexion réussie") {
+      navigate('/dashboard');
+    }
   }
 
   return (

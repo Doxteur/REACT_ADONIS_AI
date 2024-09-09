@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useState } from 'react'
-import { Search, Menu } from 'lucide-react'
+import React from 'react'
+import { Search } from 'lucide-react'
 import { Sidebar } from './core/sidebar' // Importez le nouveau composant Sidebar
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -16,11 +16,11 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           <div className="flex items-center flex-1 px-4">
             <form className="flex-1 max-w-md">
               <div className="relative">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-green-500" />
+                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-amber-500" />
                 <input
                   type="search"
                   placeholder="Search..."
-                  className="w-full pl-8 pr-4 py-2 rounded-md bg-white text-gray-900 placeholder-gray-500 border  focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full pl-8 pr-4 py-2 rounded-md bg-white text-gray-900 placeholder-gray-500 border  focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                 />
               </div>
             </form>

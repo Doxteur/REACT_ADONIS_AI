@@ -10,7 +10,6 @@ function Dashboard() {
         <DashboardCard />
         <DashboardCard />
         <DashboardCard />
-
       </div>
       <div className='mt-4'>
         <EnhancedFilterableTable />

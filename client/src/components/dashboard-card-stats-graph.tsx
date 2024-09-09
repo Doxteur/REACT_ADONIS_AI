@@ -27,7 +27,7 @@ export function DashboardCard() {
       <div className='mb-3'>
         <div className='flex items-center'>
           <span className='text-2xl font-bold text-gray-900'>12 345 €</span>
-          <span className='ml-2 flex items-center text-xs font-medium text-green-600'>
+          <span className='ml-2 flex items-center text-xs font-medium text-ambre-600'>
             <ArrowUpRight className='w-3 h-3 mr-1' />
             8,2%
           </span>
@@ -37,17 +37,17 @@ export function DashboardCard() {
       <div className='h-48 w-full bg-gray-50 rounded-lg p-2'>
         <ResponsiveContainer width='100%' height='100%'>
           <BarChart data={data}>
-            <CartesianGrid strokeDasharray='3 3' vertical={false} stroke='#E5E7EB' />
+            <CartesianGrid strokeDasharray='3 3' vertical={false} stroke='#F59E0B' />
             <XAxis
               dataKey='name'
               axisLine={false}
               tickLine={false}
-              tick={{ fontSize: 10, fill: '#6B7280' }}
+              tick={{ fontSize: 10, fill: '#F59E0B' }}
             />
             <YAxis
               axisLine={false}
               tickLine={false}
-              tick={{ fontSize: 10, fill: '#6B7280' }}
+              tick={{ fontSize: 10, fill: '#F59E0B' }}
               width={30}
             />
             <Tooltip
@@ -60,7 +60,7 @@ export function DashboardCard() {
             />
             <Bar
               dataKey='value'
-              fill='#10B981'
+              fill='#F59E0B'
               radius={[4, 4, 0, 0]}
               barSize={20}
             />
