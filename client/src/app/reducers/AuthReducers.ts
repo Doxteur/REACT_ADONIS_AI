@@ -9,7 +9,8 @@ export const login = createAsyncThunk(
   async (credentials: { email: string; password: string }, { rejectWithValue }) => {
     try {
       const response = await axios.post(`${REACT_APP_API_URL}/auth/login`, credentials);
-      return response.data as Object;
+      console.log(response.data);
+      return response.data;
     } catch (error: unknown) {
       if (error instanceof Error) {
         return rejectWithValue(error.message);
@@ -38,6 +39,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState: {
     user: null as Object | null,
+    token: null as string | null,
     isAuthenticated: false,
     isLoading: false,
     error: null as string | null,
@@ -59,6 +61,7 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.isAuthenticated = true;
         state.user = action.payload;
+        state.token = (action.payload as { token?: string }).token || null;
         state.error = null;
       })
       .addCase(login.rejected, (state, action) => {

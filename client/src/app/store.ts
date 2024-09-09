@@ -1,39 +1,59 @@
+// store.js
 import { configureStore } from '@reduxjs/toolkit';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import authReducer from './reducers/AuthReducers';
 import { createLogger } from 'redux-logger';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
+import { combineReducers } from 'redux';
+import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 
+import authReducer from './reducers/AuthReducers';
+
+// Create the logger
+const logger = createLogger({
+  duration: true, // Print the duration of each action
+  colors: {
+   title: () => '#139BFE',
+   prevState: () => '#9E9E9E',
+   action: () => '#149945',
+   nextState: () => '#A47104',
+  },
+});
+
+// Configuration for Redux Persist
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth'], // Liste des reducers à persister
+
 };
 
-const persistedReducer = persistReducer(persistConfig, authReducer);
+// Combine all your reducers
+const rootReducer = combineReducers({
+  auth: authReducer,
 
-// Créer le logger
-const logger = createLogger({
-  collapsed: true, // Collapse les logs par défaut
-  duration: true, // Affiche la durée de chaque action
-  timestamp: false, // N'affiche pas le timestamp
 });
 
+// Create a persisted reducer
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+// Create the store
 export const store = configureStore({
-  reducer: {
-    auth: persistedReducer,
-    // Ajoutez d'autres reducers ici si nécessaire
-  },
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: ['persist/PERSIST'],
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        ignoredActionPaths: ['payload.headers'],
+        ignoredPaths: ['items.dates'],
       },
-    }).concat(logger), // Ajouter le logger aux middlewares
-  devTools: process.env.NODE_ENV !== 'production', // Activer les DevTools seulement en développement
+    }).concat(logger),
+  devTools: process.env.NODE_ENV !== 'production',
 });
 
+// Create the persistor
 export const persistor = persistStore(store);
 
-export type RootState = ReturnType<typeof store.getState>;
+// Appdispatch
 export type AppDispatch = typeof store.dispatch;
+
+// Rootstate
+export type RootState = ReturnType<typeof store.getState>;
