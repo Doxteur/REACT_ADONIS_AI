@@ -2,7 +2,12 @@ import { Badge } from '@/components/ui/badge';
 import TableComponent from '@/components/shared/Table';
 import { Order } from '@/components/services/types/orders';
 
-export const OrdersTable = ({ orderData }: { orderData: Order[] }) => {
+interface OrdersTableProps {
+  orderData: Order[];
+  onEditOrder: (order: Order) => void;
+}
+
+export const OrdersTable = ({ orderData, onEditOrder }: OrdersTableProps) => {
   return (
     <TableComponent
       data={orderData}
@@ -67,7 +72,7 @@ export const OrdersTable = ({ orderData }: { orderData: Order[] }) => {
           sortable: true,
         },
       ]}
-      onRowClick={(order) => console.log('Clicked order:', order)}
+      onRowClick={(order) => onEditOrder(order)}
       itemsPerPage={5}
     />
   );

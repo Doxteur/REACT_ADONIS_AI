@@ -13,7 +13,7 @@ export default class OrdersController {
 
   public async store({ request, response }: HttpContextContract) {
     try {
-      const orderData = request.only(['customerName', 'customerEmail', 'type', 'status', 'date', 'amount'])
+      const orderData = request.only(['customer_name', 'customer_email', 'type', 'status', 'date', 'amount'])
       const order = await Order.create(orderData)
       return response.created(order)
     } catch (error) {
@@ -33,7 +33,7 @@ export default class OrdersController {
   public async update({ params, request, response }: HttpContextContract) {
     try {
       const order = await Order.findOrFail(params.id)
-      const orderData = request.only(['customerName', 'customerEmail', 'type', 'status', 'date', 'amount'])
+      const orderData = request.only(['customer_name', 'customer_email', 'type', 'status', 'date', 'amount'])
       order.merge(orderData)
       await order.save()
       return response.ok(order)
