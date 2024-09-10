@@ -23,7 +23,6 @@ export function PrettyLogin() {
 
   const onSubmit = async (values: FormValues) => {
     const result = await dispatch(login({ email: values.email, password: values.password })).unwrap()
-    console.log("JD",result)
     if (result.message === "Connexion réussie") {
       navigate('/dashboard');
     }

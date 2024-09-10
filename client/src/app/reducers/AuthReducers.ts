@@ -6,10 +6,9 @@ import { REACT_APP_API_URL } from '../../config';
 
 export const login = createAsyncThunk(
   'auth/login',
-  async (credentials: { email: string; password: string }, { rejectWithValue }) => {
+  async (credentials: { email: string; password: string}, { rejectWithValue }) => {
     try {
       const response = await axios.post(`${REACT_APP_API_URL}/auth/login`, credentials);
-      console.log(response.data);
       return response.data;
     } catch (error: unknown) {
       if (error instanceof Error) {

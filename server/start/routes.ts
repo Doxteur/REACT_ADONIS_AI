@@ -17,6 +17,15 @@ Route.group(() => {
   Route.post('/register', 'AuthController.register').as('auth.register')
 }).prefix('/auth')
 
+// Routes pour les orders
+Route.group(() => {
+  Route.get('/', 'OrdersController.index').as('orders.index')
+  Route.post('/', 'OrdersController.store').as('orders.store')
+  Route.get('/:id', 'OrdersController.show').as('orders.show')
+  Route.put('/:id', 'OrdersController.update').as('orders.update')
+  Route.delete('/:id', 'OrdersController.destroy').as('orders.destroy')
+}).prefix('/orders').middleware('auth')
+
 // Routes de documentation
 Route.get('/swagger', async () => {
   return AutoSwagger.docs(Route.toJSON(), swagger)

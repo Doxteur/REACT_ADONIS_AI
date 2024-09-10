@@ -7,6 +7,8 @@ import { combineReducers } from 'redux';
 import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 
 import authReducer from './reducers/AuthReducers';
+import ordersReducer from './reducers/OrdersReducers';
+import { setStore } from './middlewares/ReduxMiddlewares';
 
 // Create the logger
 const logger = createLogger({
@@ -29,7 +31,7 @@ const persistConfig = {
 // Combine all your reducers
 const rootReducer = combineReducers({
   auth: authReducer,
-
+  orders: ordersReducer,
 });
 
 // Create a persisted reducer
@@ -48,6 +50,8 @@ export const store = configureStore({
     }).concat(logger),
   devTools: process.env.NODE_ENV !== 'production',
 });
+
+setStore(store);
 
 // Create the persistor
 export const persistor = persistStore(store);

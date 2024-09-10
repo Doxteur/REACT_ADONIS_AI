@@ -3,12 +3,11 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './hooks/useAuth';
 
 // Importez vos composants de page ici
-import Home from './pages/Home';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Register from './pages/Register';
-import { DashboardLayout } from '@/components/dashboard-layout';
-import Dashboard from './pages/Dashboard';
+import DashboardPage from './pages/DashboardPage';
+import Layout from '@/components/core/Layouts';
 
 // Composant AuthGuard
 const AuthGuard = ({ children }: { children: React.ReactNode }) => {
@@ -20,11 +19,11 @@ export const AppRoutes = () => (
   <Routes>
     <Route path='/' element={
       <AuthGuard>
-        <DashboardLayout>
-          <Dashboard />
-        </DashboardLayout>
+        <Layout>
+          <DashboardPage />
+        </Layout>
       </AuthGuard>
-    }></Route>
+    } />
 
     <Route path='/login' element={<Login />} />
     <Route path='/register' element={<Register />} />
@@ -32,9 +31,9 @@ export const AppRoutes = () => (
       path='/dashboard'
       element={
         <AuthGuard>
-          <DashboardLayout>
-            <Dashboard />
-          </DashboardLayout>
+          <Layout>
+            <DashboardPage />
+          </Layout>
         </AuthGuard>
       }
     />
@@ -42,7 +41,9 @@ export const AppRoutes = () => (
       path='/profile'
       element={
         <AuthGuard>
-          <Profile />
+          <Layout>
+            <Profile />
+          </Layout>
         </AuthGuard>
       }
     />

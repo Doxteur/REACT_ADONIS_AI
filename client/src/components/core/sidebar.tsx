@@ -1,38 +1,57 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { Home, BarChart2, Users, Settings } from 'lucide-react'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { Home, ShoppingCart, Package, Users2, LineChart, Settings, Package2 } from 'lucide-react';
+
+// Extraire les composants réutilisables
+const SidebarLink = ({
+  icon,
+  label,
+  active = false,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  active?: boolean;
+}) => (
+  <Tooltip>
+    <TooltipTrigger asChild>
+      <Link
+        to='#'
+        className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors hover:text-foreground md:h-8 md:w-8 ${
+          active ? 'bg-accent text-accent-foreground' : 'text-muted-foreground'
+        }`}
+      >
+        {icon}
+        <span className='sr-only'>{label}</span>
+      </Link>
+    </TooltipTrigger>
+    <TooltipContent side='right'>{label}</TooltipContent>
+  </Tooltip>
+);
 
 export function Sidebar() {
   return (
-    <aside className={`w-16  bg-white shadow-lg transition-all duration-300 'translate-x-0' : '-translate-x-full '`}>
-      <div className="flex items-center justify-center h-16 border-b border-amber-100">
-        <div className="w-8 h-8 relative overflow-hidden border-2 border-amber-500 rounded-md">
-          <div className="absolute inset-0 bg-white"></div>
-          <div className="absolute inset-0 bg-amber-500" style={{ clipPath: 'polygon(0 0, 0% 100%, 100% 0)' }}></div>
-        </div>
-        <span className="hidden  ml-2 text-lg font-semibold text-amber-700">LeapNotes</span>
-      </div>
-      <nav className="mt-6">
-        <SidebarLink to="/dashboard" icon={<Home />} label="Home" />
-        <SidebarLink to="/dashboard/analytics" icon={<BarChart2 />} label="Analytics" />
-        <SidebarLink to="/dashboard/users" icon={<Users />} label="Users" />
-        <SidebarLink to="/dashboard/settings" icon={<Settings />} label="Settings" />
+    <aside className='fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex'>
+      <nav className='flex flex-col items-center gap-4 px-2 sm:py-5'>
+        {/* Logo */}
+        <Link
+          to='#'
+          className='group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base'
+        >
+          <Package2 className='h-4 w-4 transition-all group-hover:scale-110' />
+          <span className='sr-only'>Acme Inc</span>
+        </Link>
+
+        {/* Liens de navigation */}
+        <SidebarLink icon={<Home className='h-5 w-5' />} label='Dashboard' />
+        <SidebarLink icon={<ShoppingCart className='h-5 w-5' />} label='Orders' active />
+        <SidebarLink icon={<Package className='h-5 w-5' />} label='Products' />
+        <SidebarLink icon={<Users2 className='h-5 w-5' />} label='Customers' />
+        <SidebarLink icon={<LineChart className='h-5 w-5' />} label='Analytics' />
+      </nav>
+      <nav className='mt-auto flex flex-col items-center gap-4 px-2 sm:py-5'>
+        <SidebarLink icon={<Settings className='h-5 w-5' />} label='Settings' />
       </nav>
     </aside>
-  )
-}
-
-interface SidebarLinkProps {
-  to: string
-  icon: React.ReactNode
-  label: string
-}
-
-function SidebarLink({ to, icon, label }: SidebarLinkProps) {
-  return (
-    <Link to={to} className="flex items-center px-4 py-3 text-gray-700 hover:bg-amber-50 hover:text-amber-700 transition-colors duration-200">
-      <div className="w-5 h-5 text-amber-600">{icon}</div>
-      <span className="hidden  ml-3">{label}</span>
-    </Link>
-  )
+  );
 }
