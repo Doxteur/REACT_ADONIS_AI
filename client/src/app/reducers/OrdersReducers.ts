@@ -41,6 +41,23 @@ export const updateOrder = createAsyncThunk(
   }
 );
 
+export const deleteOrder = createAsyncThunk(
+  'orders/deleteOrder',
+  async (orderId: number, { rejectWithValue }) => {
+    try {
+      await axiosInstance.delete(`${REACT_APP_API_URL}/orders/${orderId}`);
+      return orderId;
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue('Une erreur inconnue est survenue lors de la suppression de la commande');
+    }
+  }
+);
+
+
+
 const ordersSlice = createSlice({
   name: 'orders',
   initialState: {
@@ -92,7 +109,16 @@ const ordersSlice = createSlice({
       .addCase(updateOrder.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string | null;
-      });
+      })
+      .addCase(deleteOrder.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(deleteOrder.fulfilled, (state, action: PayloadAction<number>) => {
+        state.isLoading = false;
+        state.orders = state.orders.filter(order => order.id !== action.payload);
+        state.error = null;
+      })
   },
 });
 
