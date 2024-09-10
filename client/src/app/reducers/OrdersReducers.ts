@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axiosInstance from '@/app/middlewares/ReduxMiddlewares';
-import { Order } from '@/types/orders';
+import { Order } from '@/components/services/types/orders';
 import { REACT_APP_API_URL } from '../../config';
 
 export const fetchOrders = createAsyncThunk(

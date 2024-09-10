@@ -1,9 +1,8 @@
 import { Badge } from '@/components/ui/badge';
-import TableComponent from '@/components/utils/Table';
-import { Order } from '@/types/orders';
+import TableComponent from '@/components/shared/Table';
+import { Order } from '@/components/services/types/orders';
 
 export const OrdersTable = ({ orderData }: { orderData: Order[] }) => {
-    console.log(orderData)
   return (
     <TableComponent
       data={orderData}
