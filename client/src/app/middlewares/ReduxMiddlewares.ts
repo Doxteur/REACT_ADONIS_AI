@@ -28,8 +28,6 @@ axiosInstance.interceptors.response.use(
       // Si l'erreur est 401, on déconnecte l'utilisateur
       console.log('Erreur 401 détectée, déconnexion de l\'utilisateur');
       storeInstance.dispatch(logout());
-      // Rediriger vers la page de connexion si nécessaire
-      // window.location.href = '/login';
     }
     return Promise.reject(error);
   }
