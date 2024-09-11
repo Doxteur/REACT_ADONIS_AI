@@ -31,7 +31,6 @@ Route.group(() => {
   Route.post('/process-payment', 'PaymentsController.processPayment').as('payments.processPayment')
   Route.get('/:paymentIntentId/status', 'PaymentsController.checkPaymentStatus').as('payments.checkPaymentStatus')
   Route.post('create-checkout-session', 'PaymentsController.createCheckoutSession')
-
 }).prefix('/payments')
 
 // Routes de documentation
