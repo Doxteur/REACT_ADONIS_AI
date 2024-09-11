@@ -49,7 +49,7 @@ export function Sidebar() {
 
         {/* Liens de navigation */}
         <SidebarLink icon={<Home className='h-5 w-5' />} label='Dashboard' to='/dashboard' />
-        <SidebarLink icon={<ShoppingCart className='h-5 w-5' />} label='Orders' to='/orders' />
+        <SidebarLink icon={<ShoppingCart className='h-5 w-5' />} label='Orders' to='/payment' />
         <SidebarLink icon={<Package className='h-5 w-5' />} label='Products' to='/products' />
         <SidebarLink icon={<Users2 className='h-5 w-5' />} label='Customers' to='/customers' />
         <SidebarLink icon={<LineChart className='h-5 w-5' />} label='Analytics' to='/analytics' />

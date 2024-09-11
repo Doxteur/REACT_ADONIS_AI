@@ -72,7 +72,9 @@ export const OrdersTable = ({ orderData, onEditOrder }: OrdersTableProps) => {
           sortable: true,
         },
       ]}
-      onRowClick={(order) => onEditOrder(order)}
+      onRowClick={(order) => {
+        onEditOrder(order);
+      }}
       itemsPerPage={5}
     />
   );
