@@ -7,8 +7,8 @@ import { Lock, Mail, AlertCircle } from "lucide-react"
 import { Form, Field } from 'react-final-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../app/reducers/AuthReducers'
-import { AppDispatch, RootState } from '../app/store' // Assurez-vous que ce chemin est correct
+import { login } from '../../../app/reducers/AuthReducers'
+import { AppDispatch, RootState } from '../../../app/store' // Assurez-vous que ce chemin est correct
 
 interface FormValues {
   email: string;

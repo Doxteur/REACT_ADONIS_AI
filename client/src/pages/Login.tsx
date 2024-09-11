@@ -1,4 +1,4 @@
-import { PrettyLogin } from '@/components/loginForm'
+import { PrettyLogin } from '@/components/services/auth/loginForm'
 
 function Login() {
 

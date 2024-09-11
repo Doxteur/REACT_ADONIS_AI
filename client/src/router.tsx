@@ -12,8 +12,8 @@ import PaymentPage from './pages/Paiments';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
-import Success from '@/components/utils/stripe/Success';
-import Cancel from '@/components/utils/stripe/Cancel';
+import Success from '@/components/services/stripe/Success';
+import Cancel from '@/components/services/stripe/Cancel';
 import LandingPages from './pages/LandingPages';
 const stripePromise = loadStripe(
   'pk_test_51O5unuFEj403Phjgbi9HfcgZSe8NW3jkyu9L47FNAx8dwXknEndmFqYhlmqo2BksV1Uwsv1rfo0s3ZeeZgQYuxSn00P9W9WRNc'

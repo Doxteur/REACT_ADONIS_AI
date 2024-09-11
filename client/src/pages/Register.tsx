@@ -1,5 +1,5 @@
 import React from 'react'
-import { PrettySignup } from '@/components/registerForm'
+import { PrettySignup } from '@/components/services/auth/registerForm'
 
 function Register() {
   return (
