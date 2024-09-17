@@ -12,6 +12,7 @@ export const login = createAsyncThunk(
       return response.data;
     } catch (error: unknown) {
       if (error instanceof Error) {
+        console.log(error);
         return rejectWithValue(error.message);
       }
       return rejectWithValue('Une erreur inconnue est survenue');

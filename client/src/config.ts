@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === 'production') {
     // Development Configuration
     const isMobileDev = process.env.REACT_APP_MOBILE_DEV === 'true';
     const devBaseUrl = isMobileDev ? 'http://192.168.56.1:8000' : 'http://127.0.0.1:3333';
-    REACT_APP_API_URL = `${devBaseUrl}/api`;
+    REACT_APP_API_URL = `${devBaseUrl}`;
 }
 
 export { REACT_APP_API_URL };

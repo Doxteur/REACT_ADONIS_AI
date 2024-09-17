@@ -10,7 +10,6 @@ function Success() {
   useEffect(() => {
     const fetchSession = async () => {
       const sessionId = new URLSearchParams(window.location.search).get('session_id');
-      console.log('JD sessionId', sessionId);
       if (stripe && sessionId) {
         try {
           const result = await stripe.retrievePaymentIntent(sessionId);
