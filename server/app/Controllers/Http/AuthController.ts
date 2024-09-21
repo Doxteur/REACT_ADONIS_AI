@@ -19,6 +19,7 @@ export default class AuthController {
       schema: validationSchema,
     });
 
+
     try {
       const token = await auth.use("api").attempt(email, password);
       const user = await User.query()
@@ -32,6 +33,7 @@ export default class AuthController {
         user: user,
       });
     } catch (error) {
+      console.log("login", error);
       return response.unauthorized({
         message: "Identifiants invalides",
       });

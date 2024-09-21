@@ -49,9 +49,6 @@ export default class PaymentsController {
   public async createCheckoutSession({ request, response }: HttpContextContract) {
     try {
       const { offerId, price } = request.all()
-      console.log("JD",offerId,price)
-
-      console.log("JD",request.all())
       // Vérifier si le plan existe
       const plan = pricingPlans.find(plan => plan.id === offerId)
       if (!plan) {
