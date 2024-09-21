@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo } from "react";
 import {
   Table as UITable,
   TableBody,
@@ -6,9 +6,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { ChevronUp, ChevronDown } from 'lucide-react';
-import TablePagination from '@/components/shared/TablePagination';
+} from "@/components/ui/table";
+import { ChevronUp, ChevronDown } from "lucide-react";
+import TablePagination from "@/components/shared/TablePagination";
 
 interface Column<T> {
   header: string;
@@ -24,6 +24,10 @@ interface TableProps<T> {
   highlightRow?: (item: T) => boolean;
   onRowClick?: (item: T) => void;
   itemsPerPage?: number;
+  currentPage?: number;
+  totalPages?: number;
+  onPageChange?: (newPage: number) => void;
+  isLoading?: boolean;
 }
 
 function Table<T>({
@@ -31,18 +35,20 @@ function Table<T>({
   columns,
   highlightRow,
   onRowClick,
-  itemsPerPage = 10
+  currentPage = 1,
+  totalPages = 1,
+  onPageChange,
+  isLoading,
 }: TableProps<T>) {
   const [sortColumn, setSortColumn] = useState<keyof T | null>(null);
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-  const [currentPage, setCurrentPage] = useState(1);
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
   const handleSort = (column: keyof T) => {
     if (sortColumn === column) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
     } else {
       setSortColumn(column);
-      setSortDirection('asc');
+      setSortDirection("asc");
     }
   };
 
@@ -53,20 +59,11 @@ function Table<T>({
       const aValue = a[sortColumn];
       const bValue = b[sortColumn];
 
-      if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
-      if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
+      if (aValue < bValue) return sortDirection === "asc" ? -1 : 1;
+      if (aValue > bValue) return sortDirection === "asc" ? 1 : -1;
       return 0;
     });
   }, [data, sortColumn, sortDirection]);
-
-  const totalPages = Math.ceil(sortedData.length / itemsPerPage);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = sortedData.slice(indexOfFirstItem, indexOfLastItem);
-
-  const handlePageChange = (direction: 'prev' | 'next') => {
-    setCurrentPage(prev => direction === 'prev' ? Math.max(prev - 1, 1) : Math.min(prev + 1, totalPages));
-  };
 
   return (
     <>
@@ -76,38 +73,63 @@ function Table<T>({
             {columns.map((column, index) => (
               <TableHead
                 key={index}
-                className={`${column.className} ${column.sortable ? 'cursor-pointer' : ''}`}
+                className={`${column.className} ${
+                  column.sortable ? "cursor-pointer" : ""
+                }`}
                 onClick={() => column.sortable && handleSort(column.accessor)}
               >
                 {column.header}
-                {column.sortable && sortColumn === column.accessor && (
-                  sortDirection === 'asc' ? <ChevronUp className="inline ml-1" /> : <ChevronDown className="inline ml-1" />
-                )}
+                {column.sortable &&
+                  sortColumn === column.accessor &&
+                  (sortDirection === "asc" ? (
+                    <ChevronUp className="inline ml-1" />
+                  ) : (
+                    <ChevronDown className="inline ml-1" />
+                  ))}
               </TableHead>
             ))}
           </TableRow>
         </TableHeader>
         <TableBody>
-          {currentItems.map((item, rowIndex) => (
-            <TableRow
-              key={rowIndex}
-              className={`${highlightRow && highlightRow(item) ? 'bg-accent' : ''} ${onRowClick ? 'cursor-pointer hover:bg-muted' : ''}`}
-              onClick={() => onRowClick && onRowClick(item)}
-            >
-              {columns.map((column, cellIndex) => (
-                <TableCell key={cellIndex} className={column.className}>
-                  {column.cell ? column.cell(item) : String(item[column.accessor])}
-                </TableCell>
-              ))}
+          {isLoading ? (
+            <TableRow>
+              <TableCell colSpan={columns.length} className="h-24 text-center">
+                <div className="flex space-x-2 justify-center items-center bg-white">
+                  <span className="sr-only">Loading...</span>
+                  <div className="h-4 w-4 bg-black rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                  <div className="h-4 w-4 bg-black rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                  <div className="h-4 w-4 bg-black rounded-full animate-bounce"></div>
+                </div>
+              </TableCell>
             </TableRow>
-          ))}
+          ) : (
+            sortedData.map((item, rowIndex) => (
+              <TableRow
+                key={rowIndex}
+                className={`${
+                  highlightRow && highlightRow(item) ? "bg-accent" : ""
+                } ${onRowClick ? "cursor-pointer hover:bg-muted" : ""}`}
+                onClick={() => onRowClick && onRowClick(item)}
+              >
+                {columns.map((column, cellIndex) => (
+                  <TableCell key={cellIndex} className={column.className}>
+                    {column.cell
+                      ? column.cell(item)
+                      : String(item[column.accessor])}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          )}
         </TableBody>
       </UITable>
-      <TablePagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+      {onPageChange && (
+        <TablePagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+        />
+      )}
     </>
   );
 }

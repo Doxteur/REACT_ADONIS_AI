@@ -37,7 +37,6 @@ export const AppRoutes = () => (
         </AuthGuard>
       }
     />
-
     <Route path='/login' element={<Login />} />
     <Route path='/register' element={<Register />} />
     <Route

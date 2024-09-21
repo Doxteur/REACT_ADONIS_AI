@@ -2,9 +2,12 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Order from 'App/Models/Order'
 
 export default class OrdersController {
-  public async index({ response }: HttpContextContract) {
+  public async index({ request, response }: HttpContextContract) {
     try {
-      const orders = await Order.all()
+      const page = request.input('page', 1)
+      const limit = request.input('limit', 10)
+
+      const orders = await Order.query().paginate(page, limit)
       return response.ok(orders)
     } catch (error) {
       return response.internalServerError({ message: 'Erreur lors de la récupération des commandes', error: error.message })

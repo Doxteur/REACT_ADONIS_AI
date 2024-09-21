@@ -21,7 +21,11 @@ export default class AuthController {
 
     try {
       const token = await auth.use("api").attempt(email, password);
-      const user = await User.query().where("id", token.user.id).preload("role").first();
+      const user = await User.query()
+        .where("id", token.user.id)
+        .preload("role")
+        .preload("profile")
+        .firstOrFail();
       return response.ok({
         message: "Connexion réussie",
         token: token.token,
@@ -44,7 +48,11 @@ export default class AuthController {
       schema: validationSchema,
     });
     try {
-      const existingUser = await User.query().where("email", email).preload("role").first();
+      const existingUser = await User.query()
+        .where("email", email)
+        .preload("role")
+        .preload("profile")
+        .first();
       if (existingUser) {
         return response.conflict({
           message: "Utilisateur déjà existant",

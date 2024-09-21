@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 interface TablePaginationProps {
   currentPage: number;
   totalPages: number;
-  onPageChange: (direction: 'prev' | 'next') => void;
+  onPageChange: (newPage: number) => void;
 }
 
 const TablePagination: React.FC<TablePaginationProps> = ({
@@ -22,7 +22,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({
             <Button
               variant="outline"
               size="icon"
-              onClick={() => onPageChange('prev')}
+              onClick={() => onPageChange(currentPage - 1)}
               disabled={currentPage === 1}
             >
               <ChevronLeft className="h-4 w-4" />
@@ -37,7 +37,7 @@ const TablePagination: React.FC<TablePaginationProps> = ({
             <Button
               variant="outline"
               size="icon"
-              onClick={() => onPageChange('next')}
+              onClick={() => onPageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
             >
               <ChevronRight className="h-4 w-4" />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,7 +12,7 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { OrdersTable } from "@/components/services/orders/TablesOrders";
-import { fetchOrders } from "@/app/reducers/OrdersReducers";
+import { fetchOrders, setCurrentPage } from "@/app/reducers/OrdersReducers";
 import { AppDispatch, RootState } from "@/app/store"; // Assurez-vous que ce chemin est correct
 import AddOrderModal from "@/components/services/orders/AddOrderModal";
 import EditOrderModal from "@/components/services/orders/EditOrderModal";
@@ -22,8 +22,11 @@ export const description =
   "Un tableau de bord des commandes avec une navigation latérale. La barre latérale a une navigation par icônes. La zone de contenu a un fil d'Ariane et une recherche dans l'en-tête. La zone principale affiche une liste des commandes récentes avec un filtre et un bouton d'exportation. La zone principale affiche également une vue détaillée d'une seule commande avec les détails de la commande, les informations d'expédition, les informations de facturation, les informations client et les informations de paiement.";
 
 const DashboardPage = () => {
+
   const dispatch = useDispatch<AppDispatch>();
-  const { orders, isLoading } = useSelector((state: RootState) => state.orders);
+  const { orders, currentPage, totalPages } = useSelector(
+    (state: RootState) => state.orders
+  );
 
   /* Gestion des commandes */
   const [totalAmount, setTotalAmount] = useState(0);
@@ -35,9 +38,13 @@ const DashboardPage = () => {
 
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
+  const fetchOrdersData = useCallback(() => {
+    dispatch(fetchOrders({ page: currentPage, limit: 5 }));
+  }, [dispatch, currentPage]);
+
   useEffect(() => {
-    dispatch(fetchOrders());
-  }, [dispatch]);
+    fetchOrdersData();
+  }, [fetchOrdersData]);
 
   useEffect(() => {
     const calculateAmounts = () => {
@@ -72,7 +79,9 @@ const DashboardPage = () => {
     setIsEditOrderModalOpen(true);
   };
 
-  if (isLoading) return <div>Chargement des commandes...</div>;
+  const handlePageChange = (newPage: number) => {
+    dispatch(setCurrentPage(newPage));
+  };
 
   return (
     <TooltipProvider>
@@ -144,7 +153,13 @@ const DashboardPage = () => {
           </CardHeader>
           <CardContent>
             {orders.length > 0 && (
-              <OrdersTable orderData={orders} onEditOrder={handleEditOrder} />
+              <OrdersTable
+                orderData={orders}
+                onEditOrder={handleEditOrder}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
             )}
           </CardContent>
         </Card>
