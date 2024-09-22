@@ -1,6 +1,7 @@
 import BaseSeeder from "@ioc:Adonis/Lucid/Seeder";
 import User from "App/Models/User";
 import Hash from "@ioc:Adonis/Core/Hash";
+import Role from "App/Models/Role";
 
 export default class UserSeeder extends BaseSeeder {
   public async run() {
@@ -10,26 +11,26 @@ export default class UserSeeder extends BaseSeeder {
         email: "admin@admin.com",
         password: "admin",
         profile: {
-          role: "Team Manager",
-          location: "Leeds, United Kingdom",
           avatar: "/placeholder.svg?height=80&width=80",
           firstName: "Rafiqur",
           lastName: "Rahman",
-          phone: "+09 345 346 46",
-          country: "United Kingdom",
-          cityState: "Leeds, East London",
-          postalCode: "ERT 2354",
-          taxId: "AS45645756",
+          city: "Paris",
+          state: "Ile-de-France",
+          zip: "75000",
+          address: "123 Rue de la Paix",
+          phone: "+33 6 34 53 46 46",
         },
       },
-      // Vous pouvez ajouter d'autres utilisateurs ici si nécessaire
     ];
+
+    const adminRole = await Role.firstOrCreate({ name: "admin" });
 
     for (const userData of users) {
       const { profile, ...userInfo } = userData;
       const user = await User.create({
         ...userInfo,
         password: await Hash.make(userInfo.password),
+        roleId: adminRole.id,
       });
 
       await user.related("profile").create(profile);

@@ -47,7 +47,6 @@ export const OrdersTable = ({
     }
   };
 
-  console.log(orderData);
   return (
     <TableComponent
       data={orderData}

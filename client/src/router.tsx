@@ -4,7 +4,7 @@ import { useAuth } from './hooks/useAuth';
 
 // Importez vos composants de page ici
 import Login from './pages/Login';
-import Profile from './pages/Profile';
+import ProfilePage from './pages/ProfilePage';
 import Register from './pages/Register';
 import DashboardPage from './pages/DashboardPage';
 import Layout from '@/components/core/Layouts';
@@ -54,7 +54,7 @@ export const AppRoutes = () => (
       element={
         <AuthGuard>
           <Layout>
-            <Profile />
+            <ProfilePage />
           </Layout>
         </AuthGuard>
       }

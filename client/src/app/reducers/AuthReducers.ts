@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-
+import { User } from '@/components/services/types/user';
+import { Profile } from '@/components/services/types/user';
 import { REACT_APP_API_URL } from '../../config';
 
 
@@ -38,7 +39,7 @@ export const register = createAsyncThunk(
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    user: null as Object | null,
+    user: null as User & { profile: Profile } | null,
     token: null as string | null,
     isAuthenticated: false,
     isLoading: false,
@@ -57,11 +58,11 @@ const authSlice = createSlice({
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(login.fulfilled, (state, action: PayloadAction<Object>) => {
+      .addCase(login.fulfilled, (state, action: PayloadAction<{ user: User & { profile: Profile }, token: string }>) => {
         state.isLoading = false;
         state.isAuthenticated = true;
-        state.user = action.payload;
-        state.token = (action.payload as { token?: string }).token || null;
+        state.user = action.payload.user;
+        state.token = action.payload.token;
         state.error = null;
       })
       .addCase(login.rejected, (state, action) => {
@@ -74,11 +75,12 @@ const authSlice = createSlice({
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(register.fulfilled, (state, action: PayloadAction<Object>) => {
+      .addCase(register.fulfilled, (state, action) => {
+        const { user, token } = action.payload as { user: User & { profile: Profile }, token: string };
         state.isLoading = false;
         state.isAuthenticated = true;
-        state.user = action.payload;
-        state.error = null;
+        state.user = user;
+        state.token = token;
       })
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false;

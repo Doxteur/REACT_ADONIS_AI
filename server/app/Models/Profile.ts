@@ -13,9 +13,6 @@ export default class UserProfile extends BaseModel {
   public role: string | null
 
   @column()
-  public location: string | null
-
-  @column()
   public avatar: string | null
 
   @column()
@@ -31,13 +28,16 @@ export default class UserProfile extends BaseModel {
   public country: string | null
 
   @column()
-  public cityState: string | null
+  public city: string | null
 
   @column()
-  public postalCode: string | null
+  public state: string | null
 
   @column()
-  public taxId: string | null
+  public zip: string | null
+
+  @column()
+  public address: string | null
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

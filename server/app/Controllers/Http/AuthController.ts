@@ -19,7 +19,6 @@ export default class AuthController {
       schema: validationSchema,
     });
 
-
     try {
       const token = await auth.use("api").attempt(email, password);
       const user = await User.query()
@@ -27,6 +26,7 @@ export default class AuthController {
         .preload("role")
         .preload("profile")
         .firstOrFail();
+
       return response.ok({
         message: "Connexion réussie",
         token: token.token,
