@@ -56,4 +56,9 @@ Route.group(() => {
 
     return report.healthy ? response.ok(report) : response.badRequest(report);
   });
+
+  Route.get('/auth/google', 'GoogleAuthsController.redirect')
+  Route.get('/auth/google/callback', 'GoogleAuthsController.callback')
+  Route.post('/auth/google/login', 'GoogleAuthsController.loginFromClient')
+
 }).prefix("/api");

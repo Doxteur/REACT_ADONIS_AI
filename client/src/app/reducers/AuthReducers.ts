@@ -4,11 +4,11 @@ import { User } from '@/components/services/types/user';
 import { Profile } from '@/components/services/types/user';
 import { REACT_APP_API_URL } from '../../config';
 
-
 export const login = createAsyncThunk(
   'auth/login',
   async (credentials: { email: string; password: string}, { rejectWithValue }) => {
     try {
+      console.log(`${REACT_APP_API_URL}/auth/login`);
       const response = await axios.post(`${REACT_APP_API_URL}/auth/login`, credentials);
       return response.data;
     } catch (error: unknown) {
@@ -30,6 +30,21 @@ export const register = createAsyncThunk(
     } catch (error: unknown) {
       if (error instanceof Error) {
         return rejectWithValue(error.message);
+      }
+      return rejectWithValue('Une erreur inconnue est survenue');
+    }
+  }
+);
+
+export const loginWithGoogle = createAsyncThunk(
+  'auth/loginWithGoogle',
+  async (token: string, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${REACT_APP_API_URL}/auth/google/login`, { token });
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(error.response?.data?.message || 'Une erreur est survenue lors de la connexion avec Google');
       }
       return rejectWithValue('Une erreur inconnue est survenue');
     }
@@ -83,6 +98,23 @@ const authSlice = createSlice({
         state.token = token;
       })
       .addCase(register.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isAuthenticated = false;
+        state.user = null;
+        state.error = action.payload as string | null;
+      })
+      .addCase(loginWithGoogle.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(loginWithGoogle.fulfilled, (state, action: PayloadAction<{ user: User & { profile: Profile }, token: string }>) => {
+        state.isLoading = false;
+        state.isAuthenticated = true;
+        state.user = action.payload.user;
+        state.token = action.payload.token;
+        state.error = null;
+      })
+      .addCase(loginWithGoogle.rejected, (state, action) => {
         state.isLoading = false;
         state.isAuthenticated = false;
         state.user = null;

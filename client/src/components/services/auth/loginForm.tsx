@@ -7,8 +7,9 @@ import { Lock, Mail, AlertCircle } from "lucide-react"
 import { Form, Field } from 'react-final-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../../../app/reducers/AuthReducers'
+import { login, loginWithGoogle } from '../../../app/reducers/AuthReducers'
 import { AppDispatch, RootState } from '../../../app/store' // Assurez-vous que ce chemin est correct
+import { useGoogleLogin } from '@react-oauth/google'
 
 interface FormValues {
   email: string;
@@ -27,6 +28,16 @@ export function PrettyLogin() {
       navigate('/dashboard');
     }
   }
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      const result = await dispatch(loginWithGoogle(tokenResponse.access_token)).unwrap()
+      if (result.message === "Connexion réussie") {
+        navigate('/dashboard');
+      }
+    },
+    onError: (errorResponse) => console.error(errorResponse),
+  });
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-yellow-200 via-orange-300 to-amber-400">
@@ -116,6 +127,16 @@ export function PrettyLogin() {
             </form>
           )}
         />
+        <div className="mt-4">
+          <Button
+            type="button"
+            onClick={() => googleLogin()}
+            className="w-full bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+          >
+            <img src="/google-icon.png" alt="Google" className="w-5 h-5 mr-2" />
+            Se connecter avec Google
+          </Button>
+        </div>
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             Vous n'avez pas de compte ?{" "}

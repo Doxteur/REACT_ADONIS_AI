@@ -26,4 +26,6 @@ export default Env.rules({
 	STRIPE_WEBHOOK_SECRET: Env.schema.string(),
 	STRIPE_API_VERSION: Env.schema.string(),
 	STRIPE_TYPESCRIPT: Env.schema.string(),
+	GOOGLE_CLIENT_ID: Env.schema.string(),
+	GOOGLE_CLIENT_SECRET: Env.schema.string(),
 })

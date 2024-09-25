@@ -6,14 +6,18 @@ import { Provider } from 'react-redux';
 import { store } from './app/store';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AppRoutes } from './router';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { REACT_APP_GOOGLE_CLIENT_ID } from './config';
 
 function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <Router>
-          <AppRoutes />
-        </Router>
+        <GoogleOAuthProvider clientId={REACT_APP_GOOGLE_CLIENT_ID as string}>
+          <Router>
+            <AppRoutes />
+          </Router>
+        </GoogleOAuthProvider>
       </PersistGate>
     </Provider>
   );
