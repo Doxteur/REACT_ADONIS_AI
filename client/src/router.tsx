@@ -15,6 +15,8 @@ import { loadStripe } from '@stripe/stripe-js';
 import Success from '@/components/services/stripe/Success';
 import Cancel from '@/components/services/stripe/Cancel';
 import LandingPages from './pages/LandingPages';
+import { MobileMapComponent } from './components/mobile-map';
+
 const stripePromise = loadStripe(
   'pk_test_51O5unuFEj403Phjgbi9HfcgZSe8NW3jkyu9L47FNAx8dwXknEndmFqYhlmqo2BksV1Uwsv1rfo0s3ZeeZgQYuxSn00P9W9WRNc'
 );
@@ -30,11 +32,7 @@ export const AppRoutes = () => (
     <Route
       path='/'
       element={
-        <AuthGuard>
-          <Layout>
-            <DashboardPage />
-          </Layout>
-        </AuthGuard>
+        <MobileMapComponent />
       }
     />
     <Route path='/login' element={<Login />} />
