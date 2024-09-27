@@ -1,8 +1,7 @@
+// eslint-disable jsx-a11y/anchor-is-valid
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './hooks/useAuth';
-
-// Importez vos composants de page ici
 import Login from './pages/Login';
 import ProfilePage from './pages/ProfilePage';
 import Register from './pages/Register';
@@ -13,7 +12,6 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
 import Success from '@/components/services/stripe/Success';
-import Cancel from '@/components/services/stripe/Cancel';
 import LandingPages from './pages/LandingPages';
 import { MobileMapComponent } from '@/components/mobile-map';
 
