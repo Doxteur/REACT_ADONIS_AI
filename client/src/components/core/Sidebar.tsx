@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { Home, ShoppingCart, Package, Users2, LineChart, Settings, Package2 } from 'lucide-react';
+import { Home, ShoppingCart, Users2, Settings, Package2 } from 'lucide-react';
 
 // Composant SidebarLink modifié
 const SidebarLink = ({

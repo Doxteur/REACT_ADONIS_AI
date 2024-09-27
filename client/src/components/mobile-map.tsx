@@ -20,7 +20,7 @@ export function MobileMapComponent() {
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: "AIzaSyA3JaVzWooc5nvn2KNkS9pbqpT4I0fG4qs"
+    googleMapsApiKey: "AIzaSyCk8OvEfY4DwsYeGZCGlIGaStAyDr-TWGs"
   })
 
   useEffect(() => {
@@ -51,17 +51,6 @@ export function MobileMapComponent() {
       >
         <Marker position={position} />
       </GoogleMap>
-      <Card className="absolute bottom-4 left-4 right-4 bg-background/80 backdrop-blur-sm">
-        <CardContent className="p-4">
-          <h2 className="text-lg font-semibold mb-2">Position actuelle</h2>
-          <p className="text-sm text-muted-foreground mb-4">
-            Lat: {position.lat.toFixed(4)}, Lon: {position.lng.toFixed(4)}
-          </p>
-          <Button className="w-full">
-            <MapPin className="mr-2 h-4 w-4" /> Partager la position
-          </Button>
-        </CardContent>
-      </Card>
     </div>
   )
 }

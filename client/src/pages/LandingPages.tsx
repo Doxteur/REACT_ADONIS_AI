@@ -106,7 +106,7 @@ export function PriceSection() {
                 <span className='mr-2 text-5xl font-extrabold'>{plan.price} €</span>
                 <span className='text-gray-500 dark:text-gray-400'>/mois</span>
               </div>
-              <ul role='list' className='mb-8 space-y-4 text-left'>
+              <ul className='mb-8 space-y-4 text-left'>
                 {plan.features.map((feature, featureIndex) => (
                   <li key={featureIndex} className='flex items-center space-x-3'>
                     <svg

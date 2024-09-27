@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useStripe } from '@stripe/react-stripe-js';
-import { PaymentIntentResult } from '@stripe/stripe-js';
 
 function Success() {
   const stripe = useStripe();
-  const [session, setSession] = useState<PaymentIntentResult | null>(null);
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -13,7 +11,7 @@ function Success() {
       if (stripe && sessionId) {
         try {
           const result = await stripe.retrievePaymentIntent(sessionId);
-          setSession(result);
+          console.log(result);
         } catch (error) {
           console.error('Erreur lors de la récupération de la session:', error);
         }
