@@ -8,6 +8,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { AppRoutes } from './router';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { REACT_APP_GOOGLE_CLIENT_ID } from './config';
+/* eslint-disable jsx-a11y/anchor-is-valid */
 
 function App() {
   return (
