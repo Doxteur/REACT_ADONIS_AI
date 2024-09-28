@@ -1,20 +1,21 @@
 // eslint-disable jsx-a11y/anchor-is-valid
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useAuth } from "./hooks/useAuth";
-import Login from "./pages/Login";
-import ProfilePage from "./pages/ProfilePage";
-import Register from "./pages/Register";
-import DashboardPage from "./pages/DashboardPage";
+import { useAuth } from "@/hooks/useAuth";
+import Register from "@/pages/Register";
+import DashboardPage from "@/pages/DashboardPage";
 import Layout from "@/components/core/Layouts";
-import PaymentPage from "./pages/Paiments";
+import PaymentPage from "@/pages/Paiments";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
 import Success from "@/components/services/stripe/Success";
-import LandingPages from "./pages/LandingPages";
-import Home from "./pages/Home";
-
+import LandingPages from "@/pages/LandingPages";
+import Home from "@/pages/Home";
+import { MobileLoginScreen } from "@/components/services/auth/mobileLoginForm";
+import MobileProfilePage from "@/pages/mobile/mobileProfilePage";
+import MobileMapPage from "./pages/mobile/mobileMapPage";
+import MobileDealsPage from "./pages/mobile/mobileDealsPage";
 const stripePromise = loadStripe(
   "pk_test_51O5unuFEj403Phjgbi9HfcgZSe8NW3jkyu9L47FNAx8dwXknEndmFqYhlmqo2BksV1Uwsv1rfo0s3ZeeZgQYuxSn00P9W9WRNc"
 );
@@ -35,7 +36,7 @@ export const AppRoutes = () => (
         </AuthGuard>
       }
     />
-    <Route path="/login" element={<Login />} />
+
     <Route path="/register" element={<Register />} />
     <Route
       path="/dashboard"
@@ -47,16 +48,7 @@ export const AppRoutes = () => (
         </AuthGuard>
       }
     />
-    <Route
-      path="/profile"
-      element={
-        <AuthGuard>
-          <Layout>
-            <ProfilePage />
-          </Layout>
-        </AuthGuard>
-      }
-    />
+
     <Route
       path="/payment"
       element={
@@ -76,6 +68,39 @@ export const AppRoutes = () => (
         <Elements stripe={stripePromise}>
           <LandingPages />
         </Elements>
+      }
+    />
+
+    {/* Mobile Route */}
+    <Route path="/login" element={<MobileLoginScreen />} />
+
+    <Route
+      path="/profile"
+      element={
+        <AuthGuard>
+        <Layout>
+          <MobileProfilePage />
+        </Layout>
+        </AuthGuard>
+      }
+    />
+
+    <Route path="/map" element={
+      <AuthGuard>
+        <Layout>
+          <MobileMapPage />
+        </Layout>
+      </AuthGuard>
+    } />
+
+    <Route
+      path="/deals"
+      element={
+        <AuthGuard>
+          <Layout>
+            <MobileDealsPage />
+          </Layout>
+        </AuthGuard>
       }
     />
     <Route

@@ -1,15 +1,17 @@
-'use client'
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Lock, Mail, AlertCircle } from "lucide-react"
-import { Form, Field } from 'react-final-form'
-import { Link, useNavigate } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { login, loginWithGoogle } from '../../../app/reducers/AuthReducers'
-import { AppDispatch, RootState } from '../../../app/store' // Assurez-vous que ce chemin est correct
-import { useGoogleLogin } from '@react-oauth/google'
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Lock, Mail, AlertCircle, Eye, EyeOff } from "lucide-react";
+import { Form, Field } from "react-final-form";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login, loginWithGoogle } from "@/app/reducers/AuthReducers";
+import { AppDispatch, RootState } from "@/app/store"; // Assurez-vous que ce chemin est correct
+import { useGoogleLogin } from "@react-oauth/google";
+import { useState } from "react";
+import backgroundImage from "@/assets/images/background_login_map.png";
 
 interface FormValues {
   email: string;
@@ -18,31 +20,39 @@ interface FormValues {
 }
 
 export function PrettyLogin() {
-  const dispatch = useDispatch<AppDispatch>()
-  const { isLoading, error } = useSelector((state: RootState) => state.auth)
+
+  const dispatch = useDispatch<AppDispatch>();
+  const { isLoading, error } = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async (values: FormValues) => {
-
-    const result = await dispatch(login({ email: values.email, password: values.password })).unwrap()
+    const result = await dispatch(
+      login({ email: values.email, password: values.password })
+    ).unwrap();
     if (result.message === "Connexion réussie") {
-      navigate('/dashboard');
+      navigate("/dashboard");
     }
-  }
+  };
 
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      const result = await dispatch(loginWithGoogle(tokenResponse.access_token)).unwrap()
+      const result = await dispatch(
+        loginWithGoogle(tokenResponse.access_token)
+      ).unwrap();
       if (result.message === "Connexion réussie") {
-        navigate('/dashboard');
+        navigate("/dashboard");
       }
     },
     onError: (errorResponse) => console.error(errorResponse),
   });
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-yellow-200 via-orange-300 to-amber-400">
-      <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md">
+    <div
+      className="min-h-screen flex items-center justify-center bg-cover bg-center"
+      style={{ backgroundImage: `url(${backgroundImage})` }}
+    >
+      <div className="p-8 rounded-xl shadow-2xl w-full max-w-md bg-white">
         <div className="flex flex-col items-center mb-6">
           <Lock className="h-12 w-12 text-primary mb-2" />
           <h1 className="text-2xl font-bold text-gray-900">Bienvenue</h1>
@@ -61,7 +71,10 @@ export function PrettyLogin() {
               <Field name="email">
                 {({ input, meta }) => (
                   <div className="space-y-2">
-                    <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                    <Label
+                      htmlFor="email"
+                      className="text-sm font-medium text-gray-700"
+                    >
                       Adresse email
                     </Label>
                     <div className="relative">
@@ -75,28 +88,46 @@ export function PrettyLogin() {
                       />
                       <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                     </div>
-                    {meta.touched && meta.error && <span className="text-red-500 text-sm">{meta.error}</span>}
+                    {meta.touched && meta.error && (
+                      <span className="text-red-500 text-sm">{meta.error}</span>
+                    )}
                   </div>
                 )}
               </Field>
               <Field name="password">
                 {({ input, meta }) => (
                   <div className="space-y-2">
-                    <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+                    <Label
+                      htmlFor="password"
+                      className="text-sm font-medium text-gray-700"
+                    >
                       Mot de passe
                     </Label>
                     <div className="relative">
                       <Input
                         {...input}
                         id="password"
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         placeholder="Entrez votre mot de passe"
-                        className="pl-10 w-full"
+                        className="pl-10 pr-10 w-full"
                         required
                       />
                       <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-5 w-5 text-gray-400" />
+                        ) : (
+                          <Eye className="h-5 w-5 text-gray-400" />
+                        )}
+                      </button>
                     </div>
-                    {meta.touched && meta.error && <span className="text-red-500 text-sm">{meta.error}</span>}
+                    {meta.touched && meta.error && (
+                      <span className="text-red-500 text-sm">{meta.error}</span>
+                    )}
                   </div>
                 )}
               </Field>
@@ -110,20 +141,26 @@ export function PrettyLogin() {
                         type="checkbox"
                         className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
                       />
-                      <Label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
+                      <Label
+                        htmlFor="remember-me"
+                        className="ml-2 block text-sm text-gray-700"
+                      >
                         Se souvenir de moi
                       </Label>
                     </div>
                   )}
                 </Field>
                 <div className="text-sm">
-                  <Link to="/forgot-password" className="font-medium text-primary hover:text-primary/80">
+                  <Link
+                    to="/forgot-password"
+                    className="font-medium text-primary hover:text-primary/80"
+                  >
                     Mot de passe oublié ?
                   </Link>
                 </div>
               </div>
               <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? 'Connexion...' : 'Se connecter'}
+                {isLoading ? "Connexion..." : "Se connecter"}
               </Button>
             </form>
           )}
@@ -141,12 +178,15 @@ export function PrettyLogin() {
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             Vous n'avez pas de compte ?{" "}
-            <Link to="/register" className="font-medium text-primary hover:text-primary/80">
+            <Link
+              to="/register"
+              className="font-medium text-primary hover:text-primary/80"
+            >
               S'inscrire
             </Link>
           </p>
         </div>
       </div>
     </div>
-  )
+  );
 }

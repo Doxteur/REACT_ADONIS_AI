@@ -106,7 +106,7 @@ export function ProfileForm() {
             )}
           </div>
           <div className="grid grid-cols-2 gap-4">
-            {["first_name", "last_name", "phone"].map((key) => (
+            {["first_ame", "last_name", "phone"].map((key) => (
               <div key={key}>
                 <p className="text-sm text-gray-500">
                   {key.charAt(0).toUpperCase() + key.slice(1)}

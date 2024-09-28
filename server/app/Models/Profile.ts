@@ -16,10 +16,10 @@ export default class UserProfile extends BaseModel {
   public avatar: string | null
 
   @column()
-  public firstName: string | null
+  public first_name: string | null
 
   @column()
-  public lastName: string | null
+  public last_name: string | null
 
   @column()
   public phone: string | null

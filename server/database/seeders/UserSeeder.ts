@@ -12,8 +12,8 @@ export default class UserSeeder extends BaseSeeder {
         password: "admin",
         profile: {
           avatar: "/placeholder.svg?height=80&width=80",
-          firstName: "Rafiqur",
-          lastName: "Rahman",
+          first_name: "Rafiqur",
+          last_name: "Rahman",
           city: "Paris",
           state: "Ile-de-France",
           zip: "75000",

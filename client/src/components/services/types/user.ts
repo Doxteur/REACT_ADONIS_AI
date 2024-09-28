@@ -4,8 +4,8 @@ export interface Profile {
   id: number
   userId: number
   avatar: string | null
-  firstName: string | null
-  lastName: string | null
+  first_name: string | null
+  last_name: string | null
   phone: string | null
   address: string | null
   createdAt: moment.Moment
